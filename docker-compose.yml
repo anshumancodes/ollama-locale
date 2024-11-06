@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  ollama-locale:
+    container_name: ollama-locale
+    image: ghcr.io/open-webui/open-webui:ollama
+    ports:
+      - "3000:8080"   # Expose port 8080 in the container to port 3000 on the host
+    volumes:
+      - ollama:/root/.ollama
+      - open-webui:/app/backend/data
+    restart: always
+    entrypoint: [ "/bin/bash", "-c", "/scripts/install_ollama_model.sh && /start.sh" ]
+    environment:
+      - OLLAMA_MODEL=llama3.2  # Default model; the script will update it based on user input
+
+volumes:
+  ollama:
+  open-webui:
